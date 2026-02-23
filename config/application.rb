@@ -23,5 +23,8 @@ module JuicerApp
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    # Store session in cache (not cookie) so simulator state can be large without cookie overflow.
+    config.session_store :cache_store, key: "_juicer_app_session"
   end
 end
