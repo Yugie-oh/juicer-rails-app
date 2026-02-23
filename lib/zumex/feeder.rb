@@ -42,7 +42,7 @@ module Zumex
     end
 
     def capacity_remaining_kg
-      [CAPACITY_KG - current_load_kg, 0].max
+      [ CAPACITY_KG - current_load_kg, 0 ].max
     end
   end
 end

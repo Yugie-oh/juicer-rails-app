@@ -131,7 +131,7 @@ module Zumex
         feeder_capacity_kg: Feeder::CAPACITY_KG,
         fruit_diameter_min_mm: FRUIT_DIAMETER_MIN_MM,
         fruit_diameter_max_mm: FRUIT_DIAMETER_MAX_MM,
-        dimensions: dimensions.to_s,
+        dimensions: dimensions.to_s
       }
     end
 

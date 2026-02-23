@@ -53,7 +53,7 @@ module Zumex
         juice_collected_ml: 100,
         fruits_juiced: 2,
         peel_count: 2,
-        feeder_queue: [{ diameter_mm: 70, weight_grams: 150, kind: "orange" }]
+        feeder_queue: [ { diameter_mm: 70, weight_grams: 150, kind: "orange" } ]
       }
       j = VersatileBasic.restore(h)
       assert j.powered_on?

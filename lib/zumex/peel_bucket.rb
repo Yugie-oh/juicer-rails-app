@@ -25,7 +25,7 @@ module Zumex
     end
 
     def utilization_percent
-      [100.0 * peel_count * PEEL_VOLUME_PER_FRUIT_L / CAPACITY_LITRES, 100].min.round(1)
+      [ 100.0 * peel_count * PEEL_VOLUME_PER_FRUIT_L / CAPACITY_LITRES, 100 ].min.round(1)
     end
   end
 end

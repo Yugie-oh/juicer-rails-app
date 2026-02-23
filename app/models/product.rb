@@ -7,7 +7,7 @@ class Product < ApplicationRecord
   scope :juicers, -> { where("model IS NOT NULL") }
 
   def display_name
-    [brand, model, colour].compact.join(" ")
+    [ brand, model, colour ].compact.join(" ")
   end
 
   def dimensions_s

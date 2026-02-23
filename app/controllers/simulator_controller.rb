@@ -27,7 +27,7 @@ class SimulatorController < ApplicationController
   end
 
   def load
-    count = [(params[:count] || 20).to_i, 1].max
+    count = [ (params[:count] || 20).to_i, 1 ].max
     count = 66 if count > 66
     oranges = count.times.map { Zumex::Fruit.orange(weight: 150) }
     loaded = current_juicer.feeder.load_batch(oranges)
@@ -38,7 +38,7 @@ class SimulatorController < ApplicationController
 
   def juice_batch
     j = current_juicer
-    batch_size = [(params[:count] || 10).to_i, 1].max
+    batch_size = [ (params[:count] || 10).to_i, 1 ].max
     batch_size = 66 if batch_size > 66
 
     total_ml = 0
@@ -75,8 +75,8 @@ class SimulatorController < ApplicationController
     save_juicer_to_session(j)
     juice_cap = Zumex::VersatileBasic::JUICE_CAPACITY_ML
     juice_full = j.juice_full?
-    pct = juice_full ? 100 : [100, (j.juice_collected_ml.to_f / juice_cap) * 100].min
-    peel_pct = [100, (j.peel_bucket.peel_count * 0.25 / 15.0) * 100].min.round
+    pct = juice_full ? 100 : [ 100, (j.juice_collected_ml.to_f / juice_cap) * 100 ].min
+    peel_pct = [ 100, (j.peel_bucket.peel_count * 0.25 / 15.0) * 100 ].min.round
 
     render json: {
       ok: true,

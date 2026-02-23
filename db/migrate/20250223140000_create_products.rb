@@ -31,6 +31,6 @@ class CreateProducts < ActiveRecord::Migration[8.1]
     end
 
     add_index :products, :sku, unique: true
-    add_index :products, [:brand, :model]
+    add_index :products, [ :brand, :model ]
   end
 end
