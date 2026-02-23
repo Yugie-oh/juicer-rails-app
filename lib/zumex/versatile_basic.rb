@@ -52,8 +52,8 @@ module Zumex
     end
 
     def juice_one
-      return :power_off unless @powered_on
       return :safety_shutdown if @safety_shutdown
+      return :power_off unless @powered_on
       return :motor_error if @motor_error_simulation
       return :unsafe_action if @unsafe_action_simulation
       return :feeder_empty if feeder.empty?
