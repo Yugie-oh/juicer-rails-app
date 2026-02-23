@@ -10,13 +10,6 @@
     <p class="text-sm text-neutral-500 mt-1">22 fruits/min · 10 kg feeder · 65–81 mm fruit · 380 W</p>
   </header>
 
-  <% if flash[:notice] %>
-    <div class="rounded-lg bg-emerald-900/50 text-emerald-200 px-4 py-2 text-sm" role="alert"><%= flash[:notice] %></div>
-  <% end %>
-  <% if flash[:alert] %>
-    <div class="rounded-lg bg-red-900/50 text-red-200 px-4 py-2 text-sm" role="alert"><%= flash[:alert] %></div>
-  <% end %>
-
   <div class="w-[280px] rounded-xl border-2 <%= j.safety_shutdown? ? 'border-red-600 opacity-90' : 'border-zumex-orange' %> bg-gradient-to-b from-neutral-600 to-neutral-800 p-6 shadow-xl">
     <%# Load controls %>
     <div class="flex gap-2 items-center mb-4">
