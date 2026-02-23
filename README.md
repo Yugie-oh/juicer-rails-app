@@ -88,8 +88,8 @@ bin/rails tailwindcss:watch
 
 ## Deployment
 
-The app includes a Dockerfile and [Kamal](https://kamal-deploy.org) config for containerized deployment. Run migrations and precompile assets in your deploy process; Tailwind is built as part of `assets:precompile`.
+For production, run migrations and precompile assets (`bin/rails assets:precompile`; Tailwind is built as part of that). Deploy the app to any host that supports Rails (e.g. a VPS, PaaS, or your own server).
 
 ## License
 
-MIT. Product information © Juicers.co.uk / Zumex.
+MIT. Product information ? Juicers.co.uk / Zumex.
