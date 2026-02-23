@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   post "simulator/power", to: "simulator#power_toggle", as: :simulator_power
   post "simulator/load", to: "simulator#load", as: :simulator_load
   post "simulator/juice_batch", to: "simulator#juice_batch", as: :simulator_juice_batch
+  post "simulator/juice_one", to: "simulator#juice_one", as: :simulator_juice_one
   post "simulator/empty_jug", to: "simulator#empty_jug", as: :simulator_empty_jug
   post "simulator/reset", to: "simulator#reset", as: :simulator_reset
   post "simulator/safety", to: "simulator#safety", as: :simulator_safety
