@@ -1,0 +1,26 @@
+<div class="min-h-screen bg-neutral-900 text-neutral-200 py-8 px-4">
+  <div class="max-w-2xl mx-auto">
+    <h1 class="text-2xl font-bold text-zumex-orange mb-2">Product catalog</h1>
+    <p class="text-neutral-500 text-sm mb-6">Commercial citrus juicers</p>
+
+    <ul class="space-y-4">
+      <% @products.each do |product| %>
+        <li>
+          <%= link_to product_path(product), class: "block rounded-xl border border-neutral-600 bg-neutral-800/50 p-4 hover:border-zumex-orange hover:bg-neutral-800 transition" do %>
+            <h2 class="font-semibold text-zumex-orange"><%= product.display_name %></h2>
+            <p class="text-sm text-neutral-400 mt-1"><%= product.description&.truncate(120) %></p>
+            <p class="text-sm text-neutral-500 mt-2"><%= product.fruits_per_minute %> fruits/min · <%= product.feeder_capacity_kg %> kg feeder</p>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+
+    <% if @products.empty? %>
+      <p class="text-neutral-500">No products yet. Run <code class="bg-neutral-800 px-1 rounded">rails db:seed</code> to load the Zumex Versatile Basic.</p>
+    <% end %>
+
+    <p class="mt-8">
+      <%= link_to "← Simulator", root_path, class: "text-zumex-orange hover:underline" %>
+    </p>
+  </div>
+</div>

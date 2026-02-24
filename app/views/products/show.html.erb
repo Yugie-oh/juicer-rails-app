@@ -1,0 +1,48 @@
+<div class="min-h-screen bg-neutral-900 text-neutral-200 py-8 px-4">
+  <div class="max-w-2xl mx-auto">
+    <%= link_to "← Catalog", products_path, class: "text-zumex-orange hover:underline text-sm mb-4 inline-block" %>
+
+    <h1 class="text-2xl font-bold text-zumex-orange"><%= @product.display_name %></h1>
+    <p class="text-neutral-500 text-sm mt-1"><%= @product.finish %> · <%= @product.sku %></p>
+
+    <% if @product.description.present? %>
+      <p class="mt-4 text-neutral-300"><%= @product.description %></p>
+    <% end %>
+
+    <dl class="mt-6 grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
+      <dt class="text-neutral-500">Dimensions</dt>
+      <dd><%= @product.dimensions_s || "—" %></dd>
+      <dt class="text-neutral-500">Weight</dt>
+      <dd><%= @product.weight_kg %> kg</dd>
+      <dt class="text-neutral-500">Wattage</dt>
+      <dd><%= @product.wattage %> W</dd>
+      <dt class="text-neutral-500">Throughput</dt>
+      <dd><%= @product.fruits_per_minute %> fruits/min</dd>
+      <dt class="text-neutral-500">Feeder capacity</dt>
+      <dd><%= @product.feeder_capacity_kg %> kg</dd>
+      <dt class="text-neutral-500">Fruit diameter</dt>
+      <dd><%= @product.fruit_diameter_min_mm %>–<%= @product.fruit_diameter_max_mm %> mm</dd>
+      <dt class="text-neutral-500">IP rating</dt>
+      <dd><%= @product.ip_rating || "—" %></dd>
+      <dt class="text-neutral-500">Warranty</dt>
+      <dd><%= @product.warranty_years %> years <%= @product.warranty_type %></dd>
+      <dt class="text-neutral-500">Lead time</dt>
+      <dd><%= @product.lead_time_days %> days</dd>
+      <dt class="text-neutral-500">Price</dt>
+      <dd><%= number_to_currency(@product.price, unit: "R ", precision: 0, delimiter: ",") %> <%= @product.currency %></dd>
+    </dl>
+
+    <% if @product.features.present? && @product.features.any? %>
+      <h2 class="mt-6 font-semibold text-neutral-300">Features</h2>
+      <ul class="mt-2 list-disc list-inside text-neutral-400 text-sm space-y-1">
+        <% @product.features.each do |f| %>
+          <li><%= f %></li>
+        <% end %>
+      </ul>
+    <% end %>
+
+    <p class="mt-8">
+      <%= link_to "← Simulator", root_path, class: "text-zumex-orange hover:underline" %>
+    </p>
+  </div>
+</div>

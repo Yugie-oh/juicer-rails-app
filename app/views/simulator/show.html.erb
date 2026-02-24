@@ -1,0 +1,124 @@
+<% j = current_juicer %>
+<% juice_cap = Zumex::VersatileBasic::JUICE_CAPACITY_ML %>
+<% juice_full = j.juice_full? %>
+<% pct = juice_full ? 100 : [100, (j.juice_collected_ml.to_f / juice_cap) * 100].min %>
+<% peel_pct = [100, (j.peel_bucket.peel_count * 0.25 / 15.0) * 100].min.round %>
+
+<div class="min-h-screen bg-neutral-900 text-neutral-200 flex flex-col items-center py-8 px-4 gap-8" data-controller="simulator" data-simulator-play-animation-value="<%= flash[:play_animation] == true %>" data-simulator-juice-one-url-value="<%= simulator_juice_one_path %>" data-simulator-simulator-url-value="<%= simulator_path %>">
+  <header class="text-center">
+    <h1 class="text-2xl font-bold tracking-wide text-zumex-orange">ZUMEX VERSATILE BASIC</h1>
+    <p class="text-sm text-neutral-500 mt-1">22 fruits/min · 10 kg feeder · 65–81 mm fruit · 380 W</p>
+  </header>
+
+  <div class="w-[280px] rounded-xl border-2 <%= j.safety_shutdown? ? 'border-red-600 opacity-90' : 'border-zumex-orange' %> bg-gradient-to-b from-neutral-600 to-neutral-800 p-6 shadow-xl">
+    <%# Load controls %>
+    <div class="flex gap-2 items-center mb-4">
+      <%= form_with url: simulator_load_path, method: :post, local: true, class: "flex gap-2 items-center flex-1" do |f| %>
+        <%= f.number_field :count, value: 20, min: 1, max: 66, class: "w-14 rounded-md bg-neutral-900 border border-neutral-500 px-2 py-2 text-center text-sm text-neutral-200 focus:border-zumex-orange focus:outline-none focus:ring-1 focus:ring-zumex-orange" %>
+        <%= f.submit "Load Oranges", class: "flex-1 rounded-lg bg-neutral-500 hover:bg-neutral-600 text-white font-semibold py-2 px-3 text-sm cursor-pointer transition" %>
+      <% end %>
+    </div>
+
+    <div class="mb-5">
+      <div class="text-[10px] uppercase tracking-wider text-neutral-500 mb-1.5">Feeder (10 kg max)</div>
+      <div class="h-20 rounded-lg bg-neutral-600 overflow-hidden flex flex-wrap gap-1 p-1.5 content-start" data-simulator-target="feeder">
+        <% j.feeder.fruit_queue.first(50).each do %>
+          <div class="w-3 h-3 rounded-full bg-zumex-orange shadow-inner"></div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="mb-5">
+      <div class="text-[10px] uppercase tracking-wider text-neutral-500 mb-1.5">Original System — Cut · Press · Extract</div>
+      <div class="h-[70px] rounded-lg bg-neutral-900 flex items-center justify-center mechanism" data-simulator-target="mechanism">
+        <svg class="w-full h-full max-w-[280px] block" viewBox="0 0 280 70" fill="none" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
+          <g class="flow-dot-wrap" style="opacity: 0;">
+            <circle class="fill-zumex-juice" r="6" cx="35" cy="35"/>
+          </g>
+          <g transform="translate(35, 35)">
+            <circle class="fill-zumex-orange" r="16" cx="0" cy="0"/>
+          </g>
+          <g transform="translate(105, 35)">
+            <ellipse class="fill-zumex-orange" cx="-9" cy="0" rx="9" ry="16"/>
+            <ellipse class="fill-zumex-orange" cx="9" cy="0" rx="9" ry="16"/>
+            <rect class="fill-neutral-500" x="-1.5" y="-18" width="3" height="36"/>
+          </g>
+          <g transform="translate(175, 35)">
+            <ellipse class="fill-zumex-orange opacity-70" cx="-7" cy="0" rx="5" ry="12"/>
+            <ellipse class="fill-zumex-orange opacity-70" cx="7" cy="0" rx="5" ry="12"/>
+          </g>
+          <g transform="translate(245, 26)">
+            <path class="fill-zumex-juice" d="M-6 18 L0 28 L6 18 L3 26 L0 22 L-3 26 Z"/>
+            <ellipse class="fill-amber-800 opacity-90" cx="-10" cy="5" rx="5" ry="3"/>
+            <ellipse class="fill-amber-800 opacity-90" cx="10" cy="5" rx="5" ry="3"/>
+          </g>
+          <path d="M 53 35 L 77 35" stroke="currentColor" stroke-width="1" stroke-dasharray="4 2" class="text-neutral-600"/>
+          <path d="M 127 35 L 153 35" stroke="currentColor" stroke-width="1" stroke-dasharray="4 2" class="text-neutral-600"/>
+          <path d="M 197 35 L 223 35" stroke="currentColor" stroke-width="1" stroke-dasharray="4 2" class="text-neutral-600"/>
+          <text x="35" y="62" fill="currentColor" font-size="9" text-anchor="middle" class="text-neutral-500">Grab</text>
+          <text x="105" y="62" fill="currentColor" font-size="9" text-anchor="middle" class="text-neutral-500">Cut</text>
+          <text x="175" y="62" fill="currentColor" font-size="9" text-anchor="middle" class="text-neutral-500">Press</text>
+          <text x="245" y="62" fill="currentColor" font-size="9" text-anchor="middle" class="text-neutral-500">Extract</text>
+        </svg>
+      </div>
+    </div>
+
+    <div class="mb-5">
+      <div class="text-[10px] uppercase tracking-wider text-neutral-500 mb-1.5">Juice collected</div>
+      <div class="h-6 rounded-md bg-neutral-900 overflow-hidden">
+        <div class="h-full rounded-md bg-gradient-to-r from-zumex-orange to-zumex-juice transition-all duration-300 juice-fill" data-simulator-target="juiceFill" style="width: <%= pct %>%"></div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-3 mb-4 font-mono text-sm">
+      <div class="rounded-lg bg-black/30 py-2.5 text-center">
+        <span class="text-zumex-orange font-semibold" data-simulator-target="juiceMl"><%= j.juice_collected_ml %></span>
+        <span class="text-neutral-500 text-xs block">ml</span>
+      </div>
+      <div class="rounded-lg bg-black/30 py-2.5 text-center">
+        <span class="text-zumex-orange font-semibold" data-simulator-target="fruitsJuiced"><%= j.fruits_juiced %></span>
+        <span class="text-neutral-500 text-xs block">fruits</span>
+      </div>
+      <div class="rounded-lg bg-black/30 py-2.5 text-center">
+        <span class="text-zumex-orange font-semibold" data-simulator-target="peelPct"><%= peel_pct %></span>
+        <span class="text-neutral-500 text-xs block">peel bucket</span>
+      </div>
+      <div class="rounded-lg bg-black/30 py-2.5 text-center">
+        <span class="text-zumex-orange font-semibold" data-simulator-target="loadKg"><%= "%.2f" % j.feeder.current_load_kg %></span>
+        <span class="text-neutral-500 text-xs block">kg in feeder</span>
+      </div>
+    </div>
+
+    <div class="flex gap-2 mb-2">
+      <%= button_to (j.powered_on? ? "Power Off" : "Power On"), simulator_power_path, method: :post, form: { class: "flex-1" }, class: "w-full rounded-lg py-2.5 px-3 font-semibold text-sm transition #{j.powered_on? ? 'bg-emerald-600 hover:bg-emerald-700 text-white' : 'bg-neutral-600 text-neutral-400 hover:bg-neutral-500'}" %>
+      <%= button_to (j.safety_shutdown? ? "Clear" : "⚠"), simulator_safety_path, method: :post, title: "Simulate motor seizure / Clear shutdown", class: "rounded-lg py-2.5 px-3 font-semibold text-sm bg-red-600 hover:bg-red-700 text-white min-w-[48px]" %>
+    </div>
+    <div class="flex gap-2">
+      <%= form_with url: simulator_juice_batch_path, method: :post, local: true, class: "flex gap-2 flex-1", data: { action: "submit->simulator#runJuiceBatch", simulator_target: "juiceForm" } do |f| %>
+        <%= f.number_field :count, value: 10, min: 1, max: 66, disabled: !j.powered_on? || j.safety_shutdown? || j.feeder.empty? || juice_full, class: "w-14 rounded-md bg-neutral-900 border border-neutral-500 px-2 py-2 text-center text-sm text-neutral-200 focus:border-zumex-orange focus:outline-none focus:ring-1 focus:ring-zumex-orange disabled:cursor-not-allowed", data: { simulator_target: "juiceCount" } %>
+        <%= f.submit "Juice", disabled: !j.powered_on? || j.safety_shutdown? || j.feeder.empty? || juice_full, class: "flex-1 rounded-lg bg-zumex-orange hover:bg-zumex-orange-dark text-white font-semibold py-2 px-3 text-sm cursor-pointer transition disabled:opacity-50 disabled:cursor-not-allowed", data: { simulator_target: "juiceSubmitBtn" } %>
+      <% end %>
+    </div>
+
+    <p class="text-xs text-neutral-500 text-center mt-3" data-simulator-target="status">
+      <% if j.safety_shutdown? %>
+        <span class="text-red-400">⚠ Safety shutdown — clear to reset</span>
+      <% elsif juice_full %>
+        <span class="text-red-400">Juice full (2 L) — empty jug to continue</span>
+      <% elsif j.powered_on? %>
+        <span class="text-emerald-500">Ready — <%= j.feeder.fruit_queue.size %> fruits in feeder</span>
+      <% else %>
+        Power on to begin
+      <% end %>
+    </p>
+  </div>
+
+  <div class="flex gap-2">
+    <%= button_to "Empty Jug", simulator_empty_jug_path, method: :post, class: "rounded-lg bg-neutral-500 hover:bg-neutral-600 text-white font-semibold py-2 px-4 text-sm" %>
+    <%= button_to "Reset", simulator_reset_path, method: :post, class: "rounded-lg bg-neutral-600 hover:bg-neutral-700 text-white font-semibold py-2 px-4 text-sm" %>
+  </div>
+
+  <nav class="text-sm text-neutral-500">
+    <%= link_to "Product catalog", products_path, class: "text-zumex-orange hover:underline" %>
+  </nav>
+</div>
