@@ -1,6 +1,10 @@
 # Juicer App
 
-A Ruby on Rails application featuring an interactive **Zumex Versatile Basic** commercial citrus juicer simulator and a product catalog. Built from the [juicer-demo](juicer-demo) domain model and visual spec.
+A Ruby on Rails application featuring an interactive **Zumex Versatile Basic** commercial citrus juicer simulator and a product catalog.
+
+## App Preview
+
+![App Preview](docs/app-preview.png)
 
 ## Features
 
