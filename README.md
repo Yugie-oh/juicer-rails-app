@@ -47,8 +47,8 @@ bundle install
 
 ```bash
 bin/dev
+# If permissions issue run this on root of application: chmod +x bin/dev
 ```
-### If permissions issue run this on root of application: chmod +x bin/dev
 
 **Windows:** opens Rails in this window and Tailwind watch in a new window:
 
